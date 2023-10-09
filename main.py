@@ -1,6 +1,7 @@
 from typing import Dict, Any
 
 from utils.RandomGenerator import Random
+from utils.DataBase import DataBase
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.widget import Widget
 from kivy.app import App
@@ -106,8 +107,15 @@ class SixthWindow(Screen):
         print(word)
 
 class WindowManager(ScreenManager):
+    DB = DataBase()
     INFLUENCES = dict()
     INFLUENCES['game_start'] = dt.now()
+
+    def load_user_info(self):
+        data = self.DB.get_table(table='user_data')
+        self.INFLUENCES['user_data'] = data
+        return data
+
 
 
 class MyBoxLayout(Widget):
@@ -120,3 +128,5 @@ class MyBoxLayout(Widget):
 
 if __name__ == '__main__':
     TamboliaApp().run()
+
+
